@@ -5,7 +5,7 @@ import numpy as np
 import os
 import time
 from numpy import linspace, meshgrid
-from matplotlib.mlab import griddata
+from scipy.interpolate import griddata
 
 import config as cf
 from python.network.network import *
@@ -43,7 +43,7 @@ def plot_curves(curves):
 
   colors = ['b-', 'r-', 'k-', 'y-', 'g-', 'c-', 'm-']
   color_idx = 0
-  for scenario, curve in curves.iteritems():
+  for scenario, curve in curves.items():
     X = range(0, len(curve))
     plt.plot(X, curve, colors[color_idx], label=scenario)
     color_idx += 1
@@ -53,7 +53,7 @@ def save2csv_raw(traces):
   to_csv = []
   dir_path = cf.RESULTS_PATH + time.strftime("%Y-%m-%d_%H:%M:%S") + '/'
   os.makedirs(dir_path)
-  for scenario_name, tracer in traces.iteritems():
+  for scenario_name, tracer in traces.items():
     for i, val in enumerate(tracer['coverage'][2]):
       tmp = {'cov' : val,
              'sleep' : tracer['nb_sleeping'][2][i]}
@@ -63,12 +63,12 @@ def save2csv_raw(traces):
     df.to_csv(dir_path + scenario_name + '-cov_vs_sleeping.csv')
 
 def print_coverage_info(traces):
-  for scenario_name, tracer in traces.iteritems():
+  for scenario_name, tracer in traces.items():
     args = (scenario_name, tracer['first_depletion'][2][0])
     print("%s: first depletion at %d" % args)
     args = (scenario_name, tracer['30per_depletion'][2][0])
     print("%s: 30 percent depletion at %d" % args)
-    for trace_name, trace in tracer.iteritems():
+    for trace_name, trace in tracer.items():
       if not trace[4]:
         continue
       values = np.array(trace[2])
@@ -79,11 +79,11 @@ def print_coverage_info(traces):
 
 def save2csv(traces):
   to_csv = []
-  for scenario_name, tracer in traces.iteritems():
+  for scenario_name, tracer in traces.items():
     tmp = {'scenario_name': scenario_name,
            'first_depletion': tracer['first_depletion'][2][0],
            '30per_depletion': tracer['30per_depletion'][2][0]}
-    for trace_name, trace in tracer.iteritems():
+    for trace_name, trace in tracer.items():
       if not trace[4]:
         continue
       values = np.array(trace[2])
@@ -100,8 +100,8 @@ def save2csv(traces):
   df.to_csv(dir_path + 'results_summary.csv')
 
 def plot_traces(traces):
-  first_tracer = traces.itervalues().next()
-  nb_columns   = len([1 for k, v in first_tracer.iteritems() if v[3]])
+  first_tracer = next(iter(traces.values()))
+  nb_columns   = len([1 for k, v in first_tracer.items() if v[3]])
   fig, ax      = plt.subplots(nrows=1, ncols=nb_columns)
 
   colors = ['b', 'r', 'k', 'y', 'g', 'c', 'm']
@@ -109,9 +109,9 @@ def plot_traces(traces):
 
   color_idx = 0
   line_idx  = 0
-  for scenario, tracer in traces.iteritems():
+  for scenario, tracer in traces.items():
     subplot_idx = 1
-    for trace_name, trace in tracer.iteritems():
+    for trace_name, trace in tracer.items():
       if not trace[3]:
         continue
       ax = plt.subplot(1, nb_columns, subplot_idx)
@@ -248,7 +248,6 @@ def grid(x, y, z, resX=100, resY=100):
     "Convert 3 column data to matplotlib grid"
     xi = linspace(min(x), max(x), resX)
     yi = linspace(min(y), max(y), resY)
-    Z = griddata(x, y, z, xi, yi, interp='linear')
+    Z = griddata((x, y), z, (xi, yi), method='linear')
     X, Y = meshgrid(xi, yi)
     return X, Y, Z
-

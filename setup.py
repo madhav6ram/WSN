@@ -3,15 +3,15 @@
 """setup that compiles C++ wrapper to be used as python module.
 """
 
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 import os
 
 # this project uses c++11 codes
-os.environ["CC"] = "g++-5 -std=c++11"
+os.environ["CC"] = "g++ -std=c++11"
 
 swig_opts   = ['-shadow', '-c++']
 source_path = 'cc/'
-build_path  = 'build/temp.linux-x86_64-2.7/'+source_path
+build_path  = 'build/temp.linux-x86_64-3.10/'+source_path
 
 modified_pso      = Extension('cc._modified_pso',
                               sources=[source_path+'modified_pso.cc',

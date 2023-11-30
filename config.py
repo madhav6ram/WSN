@@ -64,25 +64,25 @@ scenario34 = ('FCM',   None,              'zero',  'BS at (-65,-65)')
 scenarios = [
               "cf.FITNESS_ALPHA=0.7",
               "cf.FITNESS_BETA=0.3",
-#              scenario0,
-#              scenario1,
-#              scenario2,
-#              scenario3,
+              scenario0,
+              scenario1,
+              scenario2,
+              scenario3,
               scenario4,
-#              "cf.FITNESS_ALPHA=0.34",
-#              "cf.FITNESS_BETA=0.33",
-#              "cf.FITNESS_GAMMA=0.33",
+              "cf.FITNESS_ALPHA=0.34",
+              "cf.FITNESS_BETA=0.33",
+              "cf.FITNESS_GAMMA=0.33",
+              scenario5,
               scenario6,
-#              scenario6,
-#              #'cf.BS_POS_X=65.0',
-#              #'cf.BS_POS_Y=65.0',
-#              #scenario32,
-#              #'cf.BS_POS_X=0.0',
-#              #'cf.BS_POS_Y=0.0',
-#              #scenario33,
-#              #'cf.BS_POS_X=-65.0',
-#              #'cf.BS_POS_Y=-65.0',
-#              #scenario34,
+              'cf.BS_POS_X=65.0',
+              'cf.BS_POS_Y=65.0',
+              scenario32,
+              'cf.BS_POS_X=0.0',
+              'cf.BS_POS_Y=0.0',
+              scenario33,
+              'cf.BS_POS_X=-65.0',
+              'cf.BS_POS_Y=-65.0',
+              scenario34,
               "save2csv_raw(traces)",
               "plot_traces(traces)",
             ]
@@ -123,7 +123,7 @@ TRACE_COVERAGE       = 1
 TRACE_LEARNING_CURVE = 0
 
 ## Runtime configuration
-MAX_ROUNDS = 15000
+MAX_ROUNDS = 50
 # number of transmissions of sensed information to cluster heads or to
 # base station (per round)
 MAX_TX_PER_ROUND = 1
@@ -132,7 +132,7 @@ NOTIFY_POSITION = 0
 
 ## Network configurations:
 # number of nodes
-NB_NODES = 300
+NB_NODES = 100
 # node sensor range
 COVERAGE_RADIUS = 15 # meters 
 # node transmission range
